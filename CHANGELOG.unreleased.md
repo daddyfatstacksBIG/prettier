@@ -66,7 +66,8 @@ var a = new (x().y().z)();
 
 #### MDX: fix text with whitespace after JSX trim incorrectly ([#6340] by [@JounQin])
 
-Previous versions format text with whitespace after JSX incorrectly in mdx, this has been fixed in this version.
+Previous versions format text with whitespace after JSX incorrectly in mdx, this
+has been fixed in this version.
 
 <!-- prettier-ignore -->
 ```md
@@ -89,8 +90,8 @@ Previous versions format text with whitespace after JSX incorrectly in mdx, this
 
 #### TypeScript/Flow: Union types inside of tuples ([#6381] by [@squidfunk])
 
-Previous versions would double-indent multi-line union types inside of
-tuples for TypeScipt and Flow and add a new line:
+Previous versions would double-indent multi-line union types inside of tuples
+for TypeScipt and Flow and add a new line:
 
 <!-- prettier-ignore -->
 ```ts
@@ -160,7 +161,8 @@ type C = [
 
 #### MDX: Adjacent JSX elements should be allowed in mdx ([#6332] by [@JounQin])
 
-Previous versions would not format adjacent JSX elements in mdx, this has been fixed in this version.
+Previous versions would not format adjacent JSX elements in mdx, this has been
+fixed in this version.
 
 <!-- prettier-ignore -->
 ```jsx
@@ -210,7 +212,8 @@ SyntaxError: Adjacent JSX elements must be wrapped in an enclosing tag. Did you 
 
 #### TypeScript: Print comment following a JSX element with generic ([#6209] by [@duailibe])
 
-Previous versions would not print this comment, this has been fixed in this version.
+Previous versions would not print this comment, this has been fixed in this
+version.
 
 <!-- prettier-ignore -->
 ```ts
@@ -240,7 +243,8 @@ const comp = (
 
 ### Handlebars: Avoid adding unwanted line breaks between text and mustaches ([#6186] by [@gavinjoyce])
 
-Previously, Prettier added line breaks between text and mustaches which resulted in unwanted whitespace in rendered output.
+Previously, Prettier added line breaks between text and mustaches which resulted
+in unwanted whitespace in rendered output.
 
 <!-- prettier-ignore -->
 ```hbs
@@ -312,7 +316,9 @@ Previously, Prettier would sometimes ignore whitespace when formatting comments.
 
 #### JavaScript: Update ?? precedence to match stage 3 proposal ([#6404] by [@vjeux])
 
-We've updated Prettier's support for the nullish coalescing operator to match a spec update that no longer allows it to immediately contain, or be contained within an `&&` or `||` operation.
+We've updated Prettier's support for the nullish coalescing operator to match a
+spec update that no longer allows it to immediately contain, or be contained
+within an `&&` or `||` operation.
 
 <!-- prettier-ignore -->
 ```js
@@ -326,11 +332,13 @@ foo ?? baz || baz;
 (foo ?? baz) || baz;
 ```
 
-Please note, as we update our parsers with versions that support this spec update, code without the parenthesis will throw a parse error.
+Please note, as we update our parsers with versions that support this spec
+update, code without the parenthesis will throw a parse error.
 
 #### JavaScript: Keep unary expressions parentheses with comments ([#6217] by [@sosukesuzuki])
 
-Previously, Prettier removes parentheses enclose unary expressions. This change modify to keep it when the expression has comments.
+Previously, Prettier removes parentheses enclose unary expressions. This change
+modify to keep it when the expression has comments.
 
 <!-- prettier-ignore -->
 ```ts
@@ -376,8 +384,8 @@ source$
 
 However, this heuristic caused people to complain because of false positives
 where calls to functions or methods matching the hard-coded names would always
-be split on multiple lines, even if the calls did not contain function
-arguments (https://github.com/prettier/prettier/issues/5769,
+be split on multiple lines, even if the calls did not contain function arguments
+(https://github.com/prettier/prettier/issues/5769,
 https://github.com/prettier/prettier/issues/5969). For many, this blanket
 decision to split functions based on name was both surprising and sub-optimal.
 
@@ -430,7 +438,8 @@ Previously, Prettier would incorrectly decode HTML entiites.
 
 #### JavaScript: Stop moving comments inside tagged template literals ([#6236] by [@sosukesuzuki])
 
-Previously, Prettier would move comments after the tag inside the template literal. This version fixes this problem.
+Previously, Prettier would move comments after the tag inside the template
+literal. This version fixes this problem.
 
 <!-- prettier-ignore -->
 ```js
@@ -451,7 +460,10 @@ foo // comment
 
 #### JavaScript: Fix moving comments in function calls like `useEffect` second argument ([#6270] by [@sosukesuzuki])
 
-This fixes a bug that was affecting function calls that have a arrow function as first argument and an array expression as second argument, such as the common React's `useEffect`. A comment in its own line before the second argument would be moved to the line above.
+This fixes a bug that was affecting function calls that have a arrow function as
+first argument and an array expression as second argument, such as the common
+React's `useEffect`. A comment in its own line before the second argument would
+be moved to the line above.
 
 The bug was only present when using the Flow and TypeScript parsers.
 
@@ -492,11 +504,13 @@ useEffect(
 
 #### TypeScript: Fix crashes when using `//` in JSX texts ([#6289] by [@duailibe])
 
-This version updates the TypeScript parser to correctly handle JSX text with double slashes (`//`). In previous versions, this would cause Prettier to crash.
+This version updates the TypeScript parser to correctly handle JSX text with
+double slashes (`//`). In previous versions, this would cause Prettier to crash.
 
 #### HTML, Vue: Don't break the template element included in a line shorter than print-width([#6284] by [@sosukesuzuki])
 
-Previously, even if the line length is shorter than print-width is Prettier breaks the line with a template element.
+Previously, even if the line length is shorter than print-width is Prettier
+breaks the line with a template element.
 
 <!-- prettier-ignore -->
 ```html
@@ -520,7 +534,10 @@ Previously, even if the line length is shorter than print-width is Prettier brea
 
 #### JavaScript: Fix breaks indentation and idempotency when an arrow function that args include object pattern is passed to a function as parameter. ([#6301] by [@sosukesuzuki])
 
-Previously, Prettier collapses strangely, when an arrow function that args include object pattern is passed to a function as parameter. Also, it breaks idempotency. Please see [#6294](https://github.com/prettier/prettier/issues/6294) for detail.
+Previously, Prettier collapses strangely, when an arrow function that args
+include object pattern is passed to a function as parameter. Also, it breaks
+idempotency. Please see
+[#6294](https://github.com/prettier/prettier/issues/6294) for detail.
 
 <!-- prettier-ignore -->
 ```js
@@ -549,7 +566,9 @@ foo(
 
 #### TypeScript: Fix specific union type breaks after opening parenthesis, but not before closing ([#6307] by [@sosukesuzuki])
 
-Previously, union type that put with `as` , `keyof`, `[]`, other union(`|`) and intersection(`&`) breaks after opening parenthesis, but not before closing. Please see [#6303](https://github.com/prettier/prettier/issues/6303) for detail.
+Previously, union type that put with `as` , `keyof`, `[]`, other union(`|`) and
+intersection(`&`) breaks after opening parenthesis, but not before closing.
+Please see [#6303](https://github.com/prettier/prettier/issues/6303) for detail.
 
 <!-- prettier-ignore-->
 ```ts
@@ -573,7 +592,9 @@ const foo = [abc, def, ghi, jkl, mno, pqr, stu, vwx, yz] as (
 
 #### HTML: Script tags are now treated as blocks for the purposes of formatting ([#6423] by [@thorn0])
 
-Previously, in the [whitespace-sensitive mode](https://prettier.io/docs/en/options.html#html-whitespace-sensitivity), they were formatted as if they were inline.
+Previously, in the
+[whitespace-sensitive mode](https://prettier.io/docs/en/options.html#html-whitespace-sensitivity),
+they were formatted as if they were inline.
 
 <!-- prettier-ignore-->
 ```html
@@ -600,7 +621,10 @@ Previously, in the [whitespace-sensitive mode](https://prettier.io/docs/en/optio
 
 #### TypeScript: Fixed to break line and add a semicolon in one execution on one line long mapped types ([#6420] by [@sosukesuzuki])
 
-Previously, when Prettier formatted long, one-line mapped types, it would break the line but didn’t add a semicolon – until you ran Prettier again (which broke Prettier’s idempotency rule). Now, Prettier adds the semicolon in the first run, fixing the issue.
+Previously, when Prettier formatted long, one-line mapped types, it would break
+the line but didn’t add a semicolon – until you ran Prettier again (which broke
+Prettier’s idempotency rule). Now, Prettier adds the semicolon in the first run,
+fixing the issue.
 
 <!-- prettier-ignore -->
 ```ts
@@ -620,7 +644,9 @@ type FooBar<T> = {
 
 #### JavaScript: Fix ugly formatting on object destructuring with parameter decorators ([#6411] by [@sosukesuzuki])
 
-Previously, Prettier formatted decorators for destructured parameters in a weird way. Now, parameter decorators are placed just above the parameter they belong to.
+Previously, Prettier formatted decorators for destructured parameters in a weird
+way. Now, parameter decorators are placed just above the parameter they belong
+to.
 
 <!-- prettier-ignore -->
 ```js
@@ -670,7 +696,9 @@ function g({}: Foo) {}
 
 #### JavaScript: Fix ugly formatting parens wrap binary expressions within call expressions ([#6441] by [@sosukesuzuki])
 
-Previously, Prettier formatted parens wrap binary expressions within call expressions in a weird way. There was no line break before and after each parens.
+Previously, Prettier formatted parens wrap binary expressions within call
+expressions in a weird way. There was no line break before and after each
+parens.
 
 <!-- prettier-ignore -->
 ```js
@@ -701,7 +729,8 @@ Previously, Prettier formatted parens wrap binary expressions within call expres
 
 #### JavaScript: Fix formatting on long named exports ([#6446] by [@sosukesuzuki])
 
-Previously, Prettier formatted long named exports differently than named imports.
+Previously, Prettier formatted long named exports differently than named
+imports.
 
 ```js
 // Input
