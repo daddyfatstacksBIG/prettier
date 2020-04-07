@@ -1,21 +1,21 @@
 "use strict";
 
 const createError = require("../common/parser-create-error");
-const {hasPragma} = require("./pragma");
+const { hasPragma } = require("./pragma");
 const locFns = require("./loc");
 const postprocess = require("./postprocess");
 
 function babelOptions(extraPlugins = []) {
   return {
-    sourceType : "module",
-    allowAwaitOutsideFunction : true,
-    allowImportExportEverywhere : true,
-    allowReturnOutsideFunction : true,
-    allowSuperOutsideMethod : true,
-    allowUndeclaredExports : true,
-    errorRecovery : true,
-    createParenthesizedExpressions : true,
-    plugins : [
+    sourceType: "module",
+    allowAwaitOutsideFunction: true,
+    allowImportExportEverywhere: true,
+    allowReturnOutsideFunction: true,
+    allowSuperOutsideMethod: true,
+    allowUndeclaredExports: true,
+    errorRecovery: true,
+    createParenthesizedExpressions: true,
+    plugins: [
       "doExpressions",
       "objectRestSpread",
       "classProperties",
@@ -37,19 +37,22 @@ function babelOptions(extraPlugins = []) {
       "classPrivateMethods",
       "v8intrinsic",
       "partialApplication",
-      [ "decorators", {decoratorsBeforeExport : false} ],
-      ...extraPlugins,
-    ],
+      ["decorators", { decoratorsBeforeExport: false }],
+      ...extraPlugins
+    ]
   };
 }
 
-function resolvePluginsConflict(condition, pluginCombinations,
-                                conflictPlugins) {
-  const combinations = [...pluginCombinations ];
+function resolvePluginsConflict(
+  condition,
+  pluginCombinations,
+  conflictPlugins
+) {
+  const combinations = [...pluginCombinations];
   if (condition) {
     for (const combination of pluginCombinations) {
       for (const plugin of conflictPlugins) {
-        combinations.push([...combination, plugin ]);
+        combinations.push([...combination, plugin]);
       }
     }
   }
@@ -63,38 +66,48 @@ function createParse(parseMethod, ...pluginCombinations) {
 
     let ast;
     try {
-      const combinations =
-          resolvePluginsConflict(text.includes("|>"), pluginCombinations, [
-            [ "pipelineOperator", {proposal : "smart"} ],
-            [ "pipelineOperator", {proposal : "minimal"} ],
-            [ "pipelineOperator", {proposal : "fsharp"} ],
-          ]);
-      ast = tryCombinations((options) => babel[parseMethod](text, options),
-                            combinations.map(babelOptions));
+      const combinations = resolvePluginsConflict(
+        text.includes("|>"),
+        pluginCombinations,
+        [
+          ["pipelineOperator", { proposal: "smart" }],
+          ["pipelineOperator", { proposal: "minimal" }],
+          ["pipelineOperator", { proposal: "fsharp" }]
+        ]
+      );
+      ast = tryCombinations(
+        options => babel[parseMethod](text, options),
+        combinations.map(babelOptions)
+      );
     } catch (error) {
       throw createError(
-          // babel error prints (l:c) with cols that are zero indexed
-          // so we need our custom error
-          error.message.replace(/ \(.*\)/, ""), {
-            start : {
-              line : error.loc.line,
-              column : error.loc.column + 1,
-            },
-          });
+        // babel error prints (l:c) with cols that are zero indexed
+        // so we need our custom error
+        error.message.replace(/ \(.*\)/, ""),
+        {
+          start: {
+            line: error.loc.line,
+            column: error.loc.column + 1
+          }
+        }
+      );
     }
     delete ast.tokens;
-    return postprocess(ast, {...opts, originalText : text});
+    return postprocess(ast, { ...opts, originalText: text });
   };
 }
 
-const parse = createParse("parse", [ "jsx", "flow" ]);
+const parse = createParse("parse", ["jsx", "flow"]);
 const parseFlow = createParse("parse", [
   "jsx",
-  [ "flow", {all : true, enums : true} ],
+  ["flow", { all: true, enums: true }]
 ]);
-const parseTypeScript =
-    createParse("parse", [ "jsx", "typescript" ], [ "typescript" ]);
-const parseExpression = createParse("parseExpression", [ "jsx" ]);
+const parseTypeScript = createParse(
+  "parse",
+  ["jsx", "typescript"],
+  ["typescript"]
+);
+const parseExpression = createParse("parseExpression", ["jsx"]);
 
 function tryCombinations(fn, combinations) {
   let error;
@@ -121,99 +134,104 @@ function parseJson(text, parsers, opts) {
 
 function assertJsonNode(node, parent) {
   switch (node.type) {
-  case "ArrayExpression":
-    return node.elements.forEach(assertJsonChildNode);
-  case "ObjectExpression":
-    return node.properties.forEach(assertJsonChildNode);
-  case "ObjectProperty":
-    // istanbul ignore if
-    if (node.computed) {
-      throw createJsonError("computed");
-    }
-    // istanbul ignore if
-    if (node.shorthand) {
-      throw createJsonError("shorthand");
-    }
-    return [ node.key, node.value ].forEach(assertJsonChildNode);
-  case "UnaryExpression":
-    switch (node.operator) {
-    case "+":
-    case "-":
-      return assertJsonChildNode(node.argument);
+    case "ArrayExpression":
+      return node.elements.forEach(assertJsonChildNode);
+    case "ObjectExpression":
+      return node.properties.forEach(assertJsonChildNode);
+    case "ObjectProperty":
+      // istanbul ignore if
+      if (node.computed) {
+        throw createJsonError("computed");
+      }
+      // istanbul ignore if
+      if (node.shorthand) {
+        throw createJsonError("shorthand");
+      }
+      return [node.key, node.value].forEach(assertJsonChildNode);
+    case "UnaryExpression":
+      switch (node.operator) {
+        case "+":
+        case "-":
+          return assertJsonChildNode(node.argument);
+        // istanbul ignore next
+        default:
+          throw createJsonError("operator");
+      }
+    case "Identifier":
+      if (parent && parent.type === "ObjectProperty" && parent.key === node) {
+        return;
+      }
+      throw createJsonError();
+    case "NullLiteral":
+    case "BooleanLiteral":
+    case "NumericLiteral":
+    case "StringLiteral":
+      return;
     // istanbul ignore next
     default:
-      throw createJsonError("operator");
-    }
-  case "Identifier":
-    if (parent && parent.type === "ObjectProperty" && parent.key === node) {
-      return;
-    }
-    throw createJsonError();
-  case "NullLiteral":
-  case "BooleanLiteral":
-  case "NumericLiteral":
-  case "StringLiteral":
-    return;
-  // istanbul ignore next
-  default:
-    throw createJsonError();
+      throw createJsonError();
   }
 
-  function assertJsonChildNode(child) { return assertJsonNode(child, node); }
+  function assertJsonChildNode(child) {
+    return assertJsonNode(child, node);
+  }
 
   // istanbul ignore next
   function createJsonError(attribute) {
-    const name =
-        !attribute ? node.type : `${node.type} with ${attribute}=${JSON.stringify(node[attribute])}`;
+    const name = !attribute
+      ? node.type
+      : `${node.type} with ${attribute}=${JSON.stringify(node[attribute])}`;
     return createError(`${name} is not allowed in JSON.`, {
-      start : {
-        line : node.loc.start.line,
-        column : node.loc.start.column + 1,
-      },
+      start: {
+        line: node.loc.start.line,
+        column: node.loc.start.column + 1
+      }
     });
   }
 }
 
 const babel = {
   parse,
-  astFormat : "estree",
+  astFormat: "estree",
   hasPragma,
   ...locFns
 };
 const babelFlow = {
   ...babel,
-  parse : parseFlow
+  parse: parseFlow
 };
 const babelTypeScript = {
   ...babel,
-  parse : parseTypeScript
+  parse: parseTypeScript
 };
 const babelExpression = {
   ...babel,
-  parse : parseExpression
+  parse: parseExpression
 };
 
 // Export as a plugin so we can reuse the same bundle for UMD loading
 module.exports = {
-  parsers : {
+  parsers: {
     babel,
-    "babel-flow" : babelFlow,
-    "babel-ts" : babelTypeScript,
-    json : {
+    "babel-flow": babelFlow,
+    "babel-ts": babelTypeScript,
+    json: {
       ...babelExpression,
-      hasPragma() { return true; },
+      hasPragma() {
+        return true;
+      }
     },
-    json5 : babelExpression,
-    "json-stringify" : {
-      parse : parseJson,
-      astFormat : "estree-json",
-      ...locFns,
+    json5: babelExpression,
+    "json-stringify": {
+      parse: parseJson,
+      astFormat: "estree-json",
+      ...locFns
     },
     /** @internal */
-    __js_expression : babelExpression,
+    __js_expression: babelExpression,
     /** for vue filter */
-    __vue_expression : babelExpression,
+    __vue_expression: babelExpression,
     /** for vue event binding to handle semicolon */
-    __vue_event_binding : babel,
-  },
+    __vue_event_binding: babel
+  }
 };
