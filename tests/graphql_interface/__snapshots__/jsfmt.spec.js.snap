@@ -273,7 +273,7 @@ type Type2 implements A, B, C, D
 # Should separate by \`,\` not \`&\`
 {a: a}
 
-type Type3 implements A, 
+type Type3 implements A,
 # &&&&&&&& comment line 1
    # &&&&&&&& comment line 2
 B& C, D
@@ -281,12 +281,12 @@ B& C, D
 
 type Type4 implements A
 # &&&&&&&& comment line 1
-, 
+,
    # &&&&&&&& comment line 2
 B& C, D
 {a: a}
 
-type Type5 implements A 
+type Type5 implements A
 # &&&&&&&& comment line 1
    # &&&&&&&& comment line 2
 ,B& C, D

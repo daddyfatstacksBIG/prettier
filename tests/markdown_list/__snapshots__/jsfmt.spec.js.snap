@@ -1658,28 +1658,28 @@ printWidth: 80
 proseWrap: "always"
                                                                                 | printWidth
 =====================================input======================================
-- a a  
-   b b  
-    c c  
-   d d  
+- a a
+   b b
+    c c
+   d d
   e e
 
-1.  a a a  
-   b b b  
-  c c c  
-   d d d  
+1.  a a a
+   b b b
+  c c c
+   d d d
     e e e
 =====================================output=====================================
-- a a  
-   b b  
-   c c  
-   d d  
+- a a
+   b b
+   c c
+   d d
   e e
 
-1.  a a a  
-     b b b  
-    c c c  
-     d d d  
+1.  a a a
+     b b b
+    c c c
+     d d d
      e e e
 
 ================================================================================
@@ -1693,28 +1693,28 @@ proseWrap: "always"
 tabWidth: 4
                                                                                 | printWidth
 =====================================input======================================
-- a a  
-   b b  
-    c c  
-   d d  
+- a a
+   b b
+    c c
+   d d
   e e
 
-1.  a a a  
-   b b b  
-  c c c  
-   d d d  
+1.  a a a
+   b b b
+  c c c
+   d d d
     e e e
 =====================================output=====================================
--   a a  
-     b b  
-     c c  
-     d d  
+-   a a
+     b b
+     c c
+     d d
     e e
 
-1.  a a a  
-     b b b  
-    c c c  
-     d d d  
+1.  a a a
+     b b b
+    c c c
+     d d d
      e e e
 
 ================================================================================
@@ -1728,28 +1728,28 @@ proseWrap: "always"
 tabWidth: 999
                                                                                 | printWidth
 =====================================input======================================
-- a a  
-   b b  
-    c c  
-   d d  
+- a a
+   b b
+    c c
+   d d
   e e
 
-1.  a a a  
-   b b b  
-  c c c  
-   d d d  
+1.  a a a
+   b b b
+  c c c
+   d d d
     e e e
 =====================================output=====================================
-- a a  
-   b b  
-   c c  
-   d d  
+- a a
+   b b
+   c c
+   d d
   e e
 
-1. a a a  
-    b b b  
-   c c c  
-    d d d  
+1. a a a
+    b b b
+   c c c
+    d d d
     e e e
 
 ================================================================================
@@ -1763,28 +1763,28 @@ proseWrap: "always"
 tabWidth: 0
                                                                                 | printWidth
 =====================================input======================================
-- a a  
-   b b  
-    c c  
-   d d  
+- a a
+   b b
+    c c
+   d d
   e e
 
-1.  a a a  
-   b b b  
-  c c c  
-   d d d  
+1.  a a a
+   b b b
+  c c c
+   d d d
     e e e
 =====================================output=====================================
-- a a  
-   b b  
-   c c  
-   d d  
+- a a
+   b b
+   c c
+   d d
   e e
 
-1. a a a  
-    b b b  
-   c c c  
-    d d d  
+1. a a a
+    b b b
+   c c c
+    d d d
     e e e
 
 ================================================================================

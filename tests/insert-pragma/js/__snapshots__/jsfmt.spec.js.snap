@@ -7,13 +7,13 @@ parsers: ["flow", "babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
-function foo(bar) { 
+function foo(bar) {
   return bar + 3 + 4;
 }
 
 /**
  * Some notes that should not be appended to
- */ 
+ */
 const fruit = 'tomatoes';
 
 =====================================output=====================================
@@ -63,7 +63,7 @@ printWidth: 80
 =====================================input======================================
 /**
  * Here lie words above pragmas
- * 
+ *
  * @flow
  * @format
  */
@@ -94,7 +94,7 @@ parsers: ["flow", "babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
-function foo(bar) { 
+function foo(bar) {
   return bar + 3 + 4;
 }
 
@@ -117,11 +117,11 @@ printWidth: 80
 =====================================input======================================
 /**
  * @flow
- * 
+ *
  * Words below the wrong pragma
  */
 
-function foo(bar) { 
+function foo(bar) {
   return bar + 3 + 4;
 }
 
@@ -147,13 +147,13 @@ parsers: ["flow", "babel", "typescript"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
-/**	
- * Copyright (c) 2015-present, Facebook, Inc.	
- * All rights reserved.	
- *	
- * This source code is licensed under the license found in the LICENSE file in	
- * the root directory of this source tree.	
- */	
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the license found in the LICENSE file in
+ * the root directory of this source tree.
+ */
 
 =====================================output=====================================
 /**

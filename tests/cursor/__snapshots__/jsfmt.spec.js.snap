@@ -249,7 +249,7 @@ const y = 5
 
 
 <|>
-  
+
 =====================================output=====================================
 const y = 5;
 <|>
@@ -299,14 +299,14 @@ thisWontBeFormatted  ( 1  ,3)
     thisWillBeFormatted  <|>  (2  ,3,   )
 
     thisWontBeFormatted  (2, 90  ,)
-    
+
 =====================================output=====================================
 thisWontBeFormatted  ( 1  ,3)
 
     thisWillBeFormatted<|>(2, 3);
 
     thisWontBeFormatted  (2, 90  ,)
-    
+
 ================================================================================
 `;
 
@@ -321,14 +321,14 @@ thisWontBeFormatted  ( 1  ,3)
     thisWillBeFormatted    (2  ,3<|>,   )
 
     thisWontBeFormatted  (2, 90  ,)
-    
+
 =====================================output=====================================
 thisWontBeFormatted  ( 1  ,3)
 
     thisWillBeFormatted(2, 3<|>);
 
     thisWontBeFormatted  (2, 90  ,)
-    
+
 ================================================================================
 `;
 
@@ -343,14 +343,14 @@ thisWontBeFormatted  ( 1  ,3)
     thisWillBeFormatted    (2  ,3,  <|> )
 
     thisWontBeFormatted  (2, 90  ,)
-    
+
 =====================================output=====================================
 thisWontBeFormatted  ( 1  ,3)
 
     thisWillBeFormatted(2, 3<|>);
 
     thisWontBeFormatted  (2, 90  ,)
-    
+
 ================================================================================
 `;
 
@@ -365,14 +365,14 @@ thisWontBeFormatted <|> ( 1  ,3)
     thisWillBeFormatted    (2  ,3,   )
 
     thisWontBeFormatted  (2, 90  ,)
-    
+
 =====================================output=====================================
 thisWontBeFormatted <|> ( 1  ,3)
 
     thisWillBeFormatted(2, 3);
 
     thisWontBeFormatted  (2, 90  ,)
-    
+
 ================================================================================
 `;
 
@@ -387,13 +387,13 @@ thisWontBeFormatted  ( 1  ,3)
     thisWillBeFormatted    (2  ,3,   )
 
     thisWontBeFormatted  (2, 9<|>0  ,)
-    
+
 =====================================output=====================================
 thisWontBeFormatted  ( 1  ,3)
 
     thisWillBeFormatted(2, 3);
 
     thisWontBeFormatted  (2, 9<|>0  ,)
-    
+
 ================================================================================
 `;

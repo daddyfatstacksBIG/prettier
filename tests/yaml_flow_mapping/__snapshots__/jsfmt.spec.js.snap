@@ -681,7 +681,7 @@ parsers: ["yaml"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
-{ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, 
+{ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
 
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb }
 
@@ -702,7 +702,7 @@ printWidth: 80
 tabWidth: 4
                                                                                 | printWidth
 =====================================input======================================
-{ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, 
+{ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
 
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb }
 
@@ -723,7 +723,7 @@ parsers: ["yaml"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
-{ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa, 
+{ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa,
 
 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb }
 
@@ -743,7 +743,7 @@ parsers: ["yaml"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
-{ aaa, 
+{ aaa,
 
 bbb }
 
@@ -760,7 +760,7 @@ printWidth: 80
 tabWidth: 4
                                                                                 | printWidth
 =====================================input======================================
-{ aaa, 
+{ aaa,
 
 bbb }
 
@@ -777,7 +777,7 @@ parsers: ["yaml"]
 printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
-{ aaa, 
+{ aaa,
 
 bbb }
 
@@ -1127,7 +1127,7 @@ printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
 {
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: 123, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: 123, 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: 123, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: 123,
 
 c: 123
 }
@@ -1151,7 +1151,7 @@ tabWidth: 4
                                                                                 | printWidth
 =====================================input======================================
 {
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: 123, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: 123, 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: 123, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: 123,
 
 c: 123
 }
@@ -1175,7 +1175,7 @@ printWidth: 80
                                                                                 | printWidth
 =====================================input======================================
 {
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: 123, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: 123, 
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: 123, bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb: 123,
 
 c: 123
 }

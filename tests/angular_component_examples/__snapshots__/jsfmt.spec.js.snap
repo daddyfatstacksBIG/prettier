@@ -13,10 +13,10 @@ trailingComma: "none"
   </ul>
   \`,
   styles: [   \`
-  
+
  :host {
    color: red;
- } 
+ }
  div { background: blue
  }
 \`
@@ -59,10 +59,10 @@ printWidth: 80
   </ul>
   \`,
   styles: [   \`
-  
+
  :host {
    color: red;
- } 
+ }
  div { background: blue
  }
 \`

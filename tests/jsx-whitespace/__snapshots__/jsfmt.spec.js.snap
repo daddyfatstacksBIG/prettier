@@ -54,7 +54,7 @@ zero_width_space = <div>]​​​[</div>;
 real_world_non_breaking_spaces = <p>Supprimer l’objectif « {goal.name} » ?</p>;
 real_world_non_breaking_spaces2 = (
   <p>
-    Supprimer l’objectif padding padding padding padding padding padding « 
+    Supprimer l’objectif padding padding padding padding padding padding «�
     {goal.name} » ?
   </p>
 );

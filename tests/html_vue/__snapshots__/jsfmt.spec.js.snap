@@ -1380,10 +1380,10 @@ x => {
 
 
 
-}} Magni consectetur in et molestias neque esse voluptatibus voluptas. {{  
-    
-    
-    some_variable 
+}} Magni consectetur in et molestias neque esse voluptatibus voluptas. {{
+
+
+    some_variable
 
 
 
@@ -1392,7 +1392,7 @@ x => {
                     preserve
 
                     invalid
-                    
+
                     interpolation
 
 }} reprehenderit voluptates minus {{console.log(  short_interpolation )}} nemo.</div>
@@ -1445,7 +1445,7 @@ x => {
                     preserve
 
                     invalid
-                    
+
                     interpolation
 
     }}
@@ -1510,10 +1510,10 @@ x => {
 
 
 
-}} Magni consectetur in et molestias neque esse voluptatibus voluptas. {{  
-    
-    
-    some_variable 
+}} Magni consectetur in et molestias neque esse voluptatibus voluptas. {{
+
+
+    some_variable
 
 
 
@@ -1522,7 +1522,7 @@ x => {
                     preserve
 
                     invalid
-                    
+
                     interpolation
 
 }} reprehenderit voluptates minus {{console.log(  short_interpolation )}} nemo.</div>
@@ -1575,7 +1575,7 @@ x => {
                     preserve
 
                     invalid
-                    
+
                     interpolation
 
     }}
@@ -1641,10 +1641,10 @@ x => {
 
 
 
-}} Magni consectetur in et molestias neque esse voluptatibus voluptas. {{  
-    
-    
-    some_variable 
+}} Magni consectetur in et molestias neque esse voluptatibus voluptas. {{
+
+
+    some_variable
 
 
 
@@ -1653,7 +1653,7 @@ x => {
                     preserve
 
                     invalid
-                    
+
                     interpolation
 
 }} reprehenderit voluptates minus {{console.log(  short_interpolation )}} nemo.</div>
@@ -1706,7 +1706,7 @@ x => {
                     preserve
 
                     invalid
-                    
+
                     interpolation
 
     }}
@@ -2386,7 +2386,7 @@ trailingComma: "none"
 }
 </style>
 <style lang="less" scoped>
-#foo6{ 
+#foo6{
          @color: #f00;
   color: @color;
 }
@@ -2394,13 +2394,13 @@ trailingComma: "none"
 
 
 <style lang="scss">
-#foo8{ 
+#foo8{
          $color: #f00;
   color: $color;
 }
 </style>
 <style lang="scss" scoped>
-#foo8{ 
+#foo8{
          $color: #f00;
   color: $color;
 }
@@ -2492,7 +2492,7 @@ printWidth: 80
 }
 </style>
 <style lang="less" scoped>
-#foo6{ 
+#foo6{
          @color: #f00;
   color: @color;
 }
@@ -2500,13 +2500,13 @@ printWidth: 80
 
 
 <style lang="scss">
-#foo8{ 
+#foo8{
          $color: #f00;
   color: $color;
 }
 </style>
 <style lang="scss" scoped>
-#foo8{ 
+#foo8{
          $color: #f00;
   color: $color;
 }
@@ -2599,7 +2599,7 @@ semi: false
 }
 </style>
 <style lang="less" scoped>
-#foo6{ 
+#foo6{
          @color: #f00;
   color: @color;
 }
@@ -2607,13 +2607,13 @@ semi: false
 
 
 <style lang="scss">
-#foo8{ 
+#foo8{
          $color: #f00;
   color: $color;
 }
 </style>
 <style lang="scss" scoped>
-#foo8{ 
+#foo8{
          $color: #f00;
   color: $color;
 }
@@ -2939,10 +2939,10 @@ trailingComma: "none"
   .bla
 </template>
 
-<template 
+<template
 
 
-   
+
    lang='pug'>
   .test
     #foo
@@ -2977,10 +2977,10 @@ printWidth: 80
   .bla
 </template>
 
-<template 
+<template
 
 
-   
+
    lang='pug'>
   .test
     #foo
@@ -3016,10 +3016,10 @@ semi: false
   .bla
 </template>
 
-<template 
+<template
 
 
-   
+
    lang='pug'>
   .test
     #foo
