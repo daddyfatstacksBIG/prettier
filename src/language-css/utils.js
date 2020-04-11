@@ -1,11 +1,31 @@
 "use strict";
 
 const colorAdjusterFunctions = new Set([
-  "red",       "green", "blue",      "alpha",      "a",
-  "rgb",       "hue",   "h",         "saturation", "s",
-  "lightness", "l",     "whiteness", "w",          "blackness",
-  "b",         "tint",  "shade",     "blend",      "blenda",
-  "contrast",  "hsl",   "hsla",      "hwb",        "hwba",
+  "red",
+  "green",
+  "blue",
+  "alpha",
+  "a",
+  "rgb",
+  "hue",
+  "h",
+  "saturation",
+  "s",
+  "lightness",
+  "l",
+  "whiteness",
+  "w",
+  "blackness",
+  "b",
+  "tint",
+  "shade",
+  "blend",
+  "blenda",
+  "contrast",
+  "hsl",
+  "hsla",
+  "hwb",
+  "hwba"
 ]);
 
 function getAncestorCounter(path, typeOrTypes) {
@@ -31,67 +51,90 @@ function getAncestorNode(path, typeOrTypes) {
 function getPropOfDeclNode(path) {
   const declAncestorNode = getAncestorNode(path, "css-decl");
 
-  return (declAncestorNode && declAncestorNode.prop &&
-          declAncestorNode.prop.toLowerCase());
+  return (
+    declAncestorNode &&
+    declAncestorNode.prop &&
+    declAncestorNode.prop.toLowerCase()
+  );
 }
 
 function isSCSS(parser, text) {
   const hasExplicitParserChoice = parser === "less" || parser === "scss";
   const IS_POSSIBLY_SCSS = /(\w\s*:\s*[^:}]+|#){|@import[^\n]+(?:url|,)/;
-  return hasExplicitParserChoice ? parser === "scss"
-                                 : IS_POSSIBLY_SCSS.test(text);
+  return hasExplicitParserChoice
+    ? parser === "scss"
+    : IS_POSSIBLY_SCSS.test(text);
 }
 
 function isWideKeywords(value) {
-  return [ "initial", "inherit", "unset", "revert" ].includes(
-      value.toLowerCase());
+  return ["initial", "inherit", "unset", "revert"].includes(
+    value.toLowerCase()
+  );
 }
 
 function isKeyframeAtRuleKeywords(path, value) {
   const atRuleAncestorNode = getAncestorNode(path, "css-atrule");
-  return (atRuleAncestorNode && atRuleAncestorNode.name &&
-          atRuleAncestorNode.name.toLowerCase().endsWith("keyframes") &&
-          [ "from", "to" ].includes(value.toLowerCase()));
+  return (
+    atRuleAncestorNode &&
+    atRuleAncestorNode.name &&
+    atRuleAncestorNode.name.toLowerCase().endsWith("keyframes") &&
+    ["from", "to"].includes(value.toLowerCase())
+  );
 }
 
 function maybeToLowerCase(value) {
-  return value.includes("$") || value.includes("@") || value.includes("#") ||
-                 value.startsWith("%") || value.startsWith("--") ||
-                 value.startsWith(":--") ||
-                 (value.includes("(") && value.includes(")"))
-             ? value
-             : value.toLowerCase();
+  return value.includes("$") ||
+    value.includes("@") ||
+    value.includes("#") ||
+    value.startsWith("%") ||
+    value.startsWith("--") ||
+    value.startsWith(":--") ||
+    (value.includes("(") && value.includes(")"))
+    ? value
+    : value.toLowerCase();
 }
 
 function insideValueFunctionNode(path, functionName) {
   const funcAncestorNode = getAncestorNode(path, "value-func");
-  return (funcAncestorNode && funcAncestorNode.value &&
-          funcAncestorNode.value.toLowerCase() === functionName);
+  return (
+    funcAncestorNode &&
+    funcAncestorNode.value &&
+    funcAncestorNode.value.toLowerCase() === functionName
+  );
 }
 
 function insideICSSRuleNode(path) {
   const ruleAncestorNode = getAncestorNode(path, "css-rule");
 
-  return (ruleAncestorNode && ruleAncestorNode.raws &&
-          ruleAncestorNode.raws.selector &&
-          (ruleAncestorNode.raws.selector.startsWith(":import") ||
-           ruleAncestorNode.raws.selector.startsWith(":export")));
+  return (
+    ruleAncestorNode &&
+    ruleAncestorNode.raws &&
+    ruleAncestorNode.raws.selector &&
+    (ruleAncestorNode.raws.selector.startsWith(":import") ||
+      ruleAncestorNode.raws.selector.startsWith(":export"))
+  );
 }
 
 function insideAtRuleNode(path, atRuleNameOrAtRuleNames) {
   const atRuleNames = [].concat(atRuleNameOrAtRuleNames);
   const atRuleAncestorNode = getAncestorNode(path, "css-atrule");
 
-  return (atRuleAncestorNode &&
-          atRuleNames.includes(atRuleAncestorNode.name.toLowerCase()));
+  return (
+    atRuleAncestorNode &&
+    atRuleNames.includes(atRuleAncestorNode.name.toLowerCase())
+  );
 }
 
 function insideURLFunctionInImportAtRuleNode(path) {
   const node = path.getValue();
   const atRuleAncestorNode = getAncestorNode(path, "css-atrule");
 
-  return (atRuleAncestorNode && atRuleAncestorNode.name === "import" &&
-          node.groups[0].value === "url" && node.groups.length === 2);
+  return (
+    atRuleAncestorNode &&
+    atRuleAncestorNode.name === "import" &&
+    node.groups[0].value === "url" &&
+    node.groups.length === 2
+  );
 }
 
 function isURLFunctionNode(node) {
@@ -103,7 +146,7 @@ function isLastNode(path, node) {
   if (!parentNode) {
     return false;
   }
-  const {nodes} = parentNode;
+  const { nodes } = parentNode;
   return nodes && nodes.indexOf(node) === nodes.length - 1;
 }
 
@@ -116,18 +159,22 @@ function isDetachedRulesetDeclarationNode(node) {
   }
 
   return (
-      (typeof node.selector === "string" && /^@.+:.*$/.test(node.selector)) ||
-      (node.selector.value && /^@.+:.*$/.test(node.selector.value)));
+    (typeof node.selector === "string" && /^@.+:.*$/.test(node.selector)) ||
+    (node.selector.value && /^@.+:.*$/.test(node.selector.value))
+  );
 }
 
 function isForKeywordNode(node) {
-  return (node.type === "value-word" &&
-          [ "from", "through", "end" ].includes(node.value));
+  return (
+    node.type === "value-word" &&
+    ["from", "through", "end"].includes(node.value)
+  );
 }
 
 function isIfElseKeywordNode(node) {
-  return (node.type === "value-word" &&
-          [ "and", "or", "not" ].includes(node.value));
+  return (
+    node.type === "value-word" && ["and", "or", "not"].includes(node.value)
+  );
 }
 
 function isEachKeywordNode(node) {
@@ -155,23 +202,30 @@ function isModuloNode(node) {
 }
 
 function isMathOperatorNode(node) {
-  return (isMultiplicationNode(node) || isDivisionNode(node) ||
-          isAdditionNode(node) || isSubtractionNode(node) ||
-          isModuloNode(node));
+  return (
+    isMultiplicationNode(node) ||
+    isDivisionNode(node) ||
+    isAdditionNode(node) ||
+    isSubtractionNode(node) ||
+    isModuloNode(node)
+  );
 }
 
 function isEqualityOperatorNode(node) {
-  return node.type === "value-word" && [ "==", "!=" ].includes(node.value);
+  return node.type === "value-word" && ["==", "!="].includes(node.value);
 }
 
 function isRelationalOperatorNode(node) {
-  return (node.type === "value-word" &&
-          [ "<", ">", "<=", ">=" ].includes(node.value));
+  return (
+    node.type === "value-word" && ["<", ">", "<=", ">="].includes(node.value)
+  );
 }
 
 function isSCSSControlDirectiveNode(node) {
-  return (node.type === "css-atrule" &&
-          [ "if", "else", "for", "each", "while" ].includes(node.name));
+  return (
+    node.type === "css-atrule" &&
+    ["if", "else", "for", "each", "while"].includes(node.name)
+  );
 }
 
 function isSCSSNestedPropertyNode(node) {
@@ -179,10 +233,11 @@ function isSCSSNestedPropertyNode(node) {
     return false;
   }
 
-  return node.selector.replace(/\/\*.*?\*\//, "")
-      .replace(/\/\/.*?\n/, "")
-      .trim()
-      .endsWith(":");
+  return node.selector
+    .replace(/\/\*.*?\*\//, "")
+    .replace(/\/\/.*?\n/, "")
+    .trim()
+    .endsWith(":");
 }
 
 function isDetachedRulesetCallNode(node) {
@@ -198,21 +253,34 @@ function isTemplatePropNode(node) {
 }
 
 function isPostcssSimpleVarNode(currentNode, nextNode) {
-  return (currentNode.value === "$$" && currentNode.type === "value-func" &&
-          nextNode && nextNode.type === "value-word" && !nextNode.raws.before);
+  return (
+    currentNode.value === "$$" &&
+    currentNode.type === "value-func" &&
+    nextNode &&
+    nextNode.type === "value-word" &&
+    !nextNode.raws.before
+  );
 }
 
 function hasComposesNode(node) {
-  return (node.value && node.value.type === "value-root" && node.value.group &&
-          node.value.group.type === "value-value" &&
-          node.prop.toLowerCase() === "composes");
+  return (
+    node.value &&
+    node.value.type === "value-root" &&
+    node.value.group &&
+    node.value.group.type === "value-value" &&
+    node.prop.toLowerCase() === "composes"
+  );
 }
 
 function hasParensAroundNode(node) {
-  return (node.value && node.value.group && node.value.group.group &&
-          node.value.group.group.type === "value-paren_group" &&
-          node.value.group.group.open !== null &&
-          node.value.group.group.close !== null);
+  return (
+    node.value &&
+    node.value.group &&
+    node.value.group.group &&
+    node.value.group.group.type === "value-paren_group" &&
+    node.value.group.group.open !== null &&
+    node.value.group.group.close !== null
+  );
 }
 
 function hasEmptyRawBefore(node) {
@@ -220,13 +288,21 @@ function hasEmptyRawBefore(node) {
 }
 
 function isKeyValuePairNode(node) {
-  return (node.type === "value-comma_group" && node.groups && node.groups[1] &&
-          node.groups[1].type === "value-colon");
+  return (
+    node.type === "value-comma_group" &&
+    node.groups &&
+    node.groups[1] &&
+    node.groups[1].type === "value-colon"
+  );
 }
 
 function isKeyValuePairInParenGroupNode(node) {
-  return (node.type === "value-paren_group" && node.groups && node.groups[0] &&
-          isKeyValuePairNode(node.groups[0]));
+  return (
+    node.type === "value-paren_group" &&
+    node.groups &&
+    node.groups[0] &&
+    isKeyValuePairNode(node.groups[0])
+  );
 }
 
 function isSCSSMapItemNode(path) {
@@ -241,8 +317,10 @@ function isSCSSMapItemNode(path) {
 
   // Check open parens contain key/value pair (i.e. `(key: value)` and `(key:
   // (value, other-value)`)
-  if (!isKeyValuePairInParenGroupNode(node) &&
-      !(parentParentNode && isKeyValuePairInParenGroupNode(parentParentNode))) {
+  if (
+    !isKeyValuePairInParenGroupNode(node) &&
+    !(parentParentNode && isKeyValuePairInParenGroupNode(parentParentNode))
+  ) {
     return false;
   }
 
@@ -285,14 +363,15 @@ function isRightCurlyBraceNode(node) {
 }
 
 function isWordNode(node) {
-  return [ "value-word", "value-atword" ].includes(node.type);
+  return ["value-word", "value-atword"].includes(node.type);
 }
 
-function isColonNode(node) { return node.type === "value-colon"; }
+function isColonNode(node) {
+  return node.type === "value-colon";
+}
 
 function isMediaAndSupportsKeywords(node) {
-  return node.value &&
-         [ "not", "and", "or" ].includes(node.value.toLowerCase());
+  return node.value && ["not", "and", "or"].includes(node.value.toLowerCase());
 }
 
 function isColorAdjusterFuncNode(node) {
@@ -359,5 +438,5 @@ module.exports = {
   isColonNode,
   isMediaAndSupportsKeywords,
   isColorAdjusterFuncNode,
-  lastLineHasInlineComment,
+  lastLineHasInlineComment
 };

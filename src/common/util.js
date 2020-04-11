@@ -33,7 +33,7 @@ function skip(chars) {
       return false;
     }
 
-    const {length} = text;
+    const { length } = text;
     let cursor = index;
     while (cursor >= 0 && cursor < length) {
       const c = text.charAt(cursor);
@@ -136,16 +136,24 @@ function skipNewline(text, index, opts) {
     if (text.charAt(index - 1) === "\r" && atIndex === "\n") {
       return index - 2;
     }
-    if (atIndex === "\n" || atIndex === "\r" || atIndex === "\u2028" ||
-        atIndex === "\u2029") {
+    if (
+      atIndex === "\n" ||
+      atIndex === "\r" ||
+      atIndex === "\u2028" ||
+      atIndex === "\u2029"
+    ) {
       return index - 1;
     }
   } else {
     if (atIndex === "\r" && text.charAt(index + 1) === "\n") {
       return index + 2;
     }
-    if (atIndex === "\n" || atIndex === "\r" || atIndex === "\u2028" ||
-        atIndex === "\u2029") {
+    if (
+      atIndex === "\n" ||
+      atIndex === "\r" ||
+      atIndex === "\u2028" ||
+      atIndex === "\u2029"
+    ) {
       return index + 1;
     }
   }
@@ -191,10 +199,10 @@ function hasNewlineInRange(text, start, end) {
 function isPreviousLineEmpty(text, node, locStart) {
   /** @type {number | false} */
   let idx = locStart(node) - 1;
-  idx = skipSpaces(text, idx, {backwards : true});
-  idx = skipNewline(text, idx, {backwards : true});
-  idx = skipSpaces(text, idx, {backwards : true});
-  const idx2 = skipNewline(text, idx, {backwards : true});
+  idx = skipSpaces(text, idx, { backwards: true });
+  idx = skipNewline(text, idx, { backwards: true });
+  idx = skipSpaces(text, idx, { backwards: true });
+  const idx2 = skipNewline(text, idx, { backwards: true });
   return idx !== idx2;
 }
 
@@ -259,8 +267,10 @@ function getNextNonSpaceNonCommentCharacterIndexWithStartIndex(text, idx) {
  * @returns {number | false}
  */
 function getNextNonSpaceNonCommentCharacterIndex(text, node, locEnd) {
-  return getNextNonSpaceNonCommentCharacterIndexWithStartIndex(text,
-                                                               locEnd(node));
+  return getNextNonSpaceNonCommentCharacterIndexWithStartIndex(
+    text,
+    locEnd(node)
+  );
 }
 
 /**
@@ -272,8 +282,9 @@ function getNextNonSpaceNonCommentCharacterIndex(text, node, locEnd) {
  */
 function getNextNonSpaceNonCommentCharacter(text, node, locEnd) {
   return text.charAt(
-      // @ts-ignore => TBD: can return false, should we define a fallback?
-      getNextNonSpaceNonCommentCharacterIndex(text, node, locEnd));
+    // @ts-ignore => TBD: can return false, should we define a fallback?
+    getNextNonSpaceNonCommentCharacterIndex(text, node, locEnd)
+  );
 }
 
 /**
@@ -313,38 +324,45 @@ function setLocEnd(node, index) {
 }
 
 const PRECEDENCE = {};
-[[ "|>" ],
- [ "??" ],
- [ "||" ],
- [ "&&" ],
- [ "|" ],
- [ "^" ],
- [ "&" ],
- [ "==", "===", "!=", "!==" ],
- [ "<", ">", "<=", ">=", "in", "instanceof" ],
- [ ">>", "<<", ">>>" ],
- [ "+", "-" ],
- [ "*", "/", "%" ],
- [ "**" ],
-].forEach((tier, i) => { tier.forEach((op) => { PRECEDENCE[op] = i; }); });
+[
+  ["|>"],
+  ["??"],
+  ["||"],
+  ["&&"],
+  ["|"],
+  ["^"],
+  ["&"],
+  ["==", "===", "!=", "!=="],
+  ["<", ">", "<=", ">=", "in", "instanceof"],
+  [">>", "<<", ">>>"],
+  ["+", "-"],
+  ["*", "/", "%"],
+  ["**"]
+].forEach((tier, i) => {
+  tier.forEach(op => {
+    PRECEDENCE[op] = i;
+  });
+});
 
-function getPrecedence(op) { return PRECEDENCE[op]; }
+function getPrecedence(op) {
+  return PRECEDENCE[op];
+}
 
 const equalityOperators = {
-  "==" : true,
-  "!=" : true,
-  "===" : true,
-  "!==" : true,
+  "==": true,
+  "!=": true,
+  "===": true,
+  "!==": true
 };
 const multiplicativeOperators = {
-  "*" : true,
-  "/" : true,
-  "%" : true,
+  "*": true,
+  "/": true,
+  "%": true
 };
 const bitshiftOperators = {
-  ">>" : true,
-  ">>>" : true,
-  "<<" : true,
+  ">>": true,
+  ">>>": true,
+  "<<": true
 };
 
 function shouldFlatten(parentOp, nodeOp) {
@@ -364,15 +382,20 @@ function shouldFlatten(parentOp, nodeOp) {
   }
 
   // x * y % z --> (x * y) % z
-  if ((nodeOp === "%" && multiplicativeOperators[parentOp]) ||
-      (parentOp === "%" && multiplicativeOperators[nodeOp])) {
+  if (
+    (nodeOp === "%" && multiplicativeOperators[parentOp]) ||
+    (parentOp === "%" && multiplicativeOperators[nodeOp])
+  ) {
     return false;
   }
 
   // x * y / z --> (x * y) / z
   // x / y * z --> (x / y) * z
-  if (nodeOp !== parentOp && multiplicativeOperators[nodeOp] &&
-      multiplicativeOperators[parentOp]) {
+  if (
+    nodeOp !== parentOp &&
+    multiplicativeOperators[nodeOp] &&
+    multiplicativeOperators[parentOp]
+  ) {
     return false;
   }
 
@@ -385,8 +408,12 @@ function shouldFlatten(parentOp, nodeOp) {
 }
 
 function isBitwiseOperator(operator) {
-  return (!!bitshiftOperators[operator] || operator === "|" ||
-          operator === "^" || operator === "&");
+  return (
+    !!bitshiftOperators[operator] ||
+    operator === "|" ||
+    operator === "^" ||
+    operator === "&"
+  );
 }
 
 // Tests if an expression starts with `{`, or (if forbidFunctionClassAndDoExpr
@@ -395,46 +422,61 @@ function isBitwiseOperator(operator) {
 function startsWithNoLookaheadToken(node, forbidFunctionClassAndDoExpr) {
   node = getLeftMost(node);
   switch (node.type) {
-  case "FunctionExpression":
-  case "ClassExpression":
-  case "DoExpression":
-    return forbidFunctionClassAndDoExpr;
-  case "ObjectExpression":
-    return true;
-  case "MemberExpression":
-  case "OptionalMemberExpression":
-    return startsWithNoLookaheadToken(node.object,
-                                      forbidFunctionClassAndDoExpr);
-  case "TaggedTemplateExpression":
-    if (node.tag.type === "FunctionExpression") {
-      // IIFEs are always already parenthesized
+    case "FunctionExpression":
+    case "ClassExpression":
+    case "DoExpression":
+      return forbidFunctionClassAndDoExpr;
+    case "ObjectExpression":
+      return true;
+    case "MemberExpression":
+    case "OptionalMemberExpression":
+      return startsWithNoLookaheadToken(
+        node.object,
+        forbidFunctionClassAndDoExpr
+      );
+    case "TaggedTemplateExpression":
+      if (node.tag.type === "FunctionExpression") {
+        // IIFEs are always already parenthesized
+        return false;
+      }
+      return startsWithNoLookaheadToken(node.tag, forbidFunctionClassAndDoExpr);
+    case "CallExpression":
+    case "OptionalCallExpression":
+      if (node.callee.type === "FunctionExpression") {
+        // IIFEs are always already parenthesized
+        return false;
+      }
+      return startsWithNoLookaheadToken(
+        node.callee,
+        forbidFunctionClassAndDoExpr
+      );
+    case "ConditionalExpression":
+      return startsWithNoLookaheadToken(
+        node.test,
+        forbidFunctionClassAndDoExpr
+      );
+    case "UpdateExpression":
+      return (
+        !node.prefix &&
+        startsWithNoLookaheadToken(node.argument, forbidFunctionClassAndDoExpr)
+      );
+    case "BindExpression":
+      return (
+        node.object &&
+        startsWithNoLookaheadToken(node.object, forbidFunctionClassAndDoExpr)
+      );
+    case "SequenceExpression":
+      return startsWithNoLookaheadToken(
+        node.expressions[0],
+        forbidFunctionClassAndDoExpr
+      );
+    case "TSAsExpression":
+      return startsWithNoLookaheadToken(
+        node.expression,
+        forbidFunctionClassAndDoExpr
+      );
+    default:
       return false;
-    }
-    return startsWithNoLookaheadToken(node.tag, forbidFunctionClassAndDoExpr);
-  case "CallExpression":
-  case "OptionalCallExpression":
-    if (node.callee.type === "FunctionExpression") {
-      // IIFEs are always already parenthesized
-      return false;
-    }
-    return startsWithNoLookaheadToken(node.callee,
-                                      forbidFunctionClassAndDoExpr);
-  case "ConditionalExpression":
-    return startsWithNoLookaheadToken(node.test, forbidFunctionClassAndDoExpr);
-  case "UpdateExpression":
-    return (!node.prefix && startsWithNoLookaheadToken(
-                                node.argument, forbidFunctionClassAndDoExpr));
-  case "BindExpression":
-    return (node.object && startsWithNoLookaheadToken(
-                               node.object, forbidFunctionClassAndDoExpr));
-  case "SequenceExpression":
-    return startsWithNoLookaheadToken(node.expressions[0],
-                                      forbidFunctionClassAndDoExpr);
-  case "TSAsExpression":
-    return startsWithNoLookaheadToken(node.expression,
-                                      forbidFunctionClassAndDoExpr);
-  default:
-    return false;
   }
 }
 
@@ -482,8 +524,10 @@ function getIndentSize(value, tabWidth) {
   }
 
   return getAlignmentSize(
-      // All the leading whitespaces
-      value.slice(lastNewlineIndex + 1).match(/^[\t ]*/)[0], tabWidth);
+    // All the leading whitespaces
+    value.slice(lastNewlineIndex + 1).match(/^[\t ]*/)[0],
+    tabWidth
+  );
 }
 
 /**
@@ -502,9 +546,9 @@ function getPreferredQuote(raw, preferredQuote) {
   const rawContent = raw.slice(1, -1);
 
   /** @type {{ quote: '"', regex: RegExp }} */
-  const double = {quote : '"', regex : /"/g};
+  const double = { quote: '"', regex: /"/g };
   /** @type {{ quote: "'", regex: RegExp }} */
-  const single = {quote : "'", regex : /'/g};
+  const single = { quote: "'", regex: /'/g };
 
   const preferred = preferredQuote === "'" ? single : double;
   const alternate = preferred === single ? double : single;
@@ -514,13 +558,17 @@ function getPreferredQuote(raw, preferredQuote) {
   // If `rawContent` contains at least one of the quote preferred for enclosing
   // the string, we might want to enclose with the alternate quote instead, to
   // minimize the number of escaped quotes.
-  if (rawContent.includes(preferred.quote) ||
-      rawContent.includes(alternate.quote)) {
+  if (
+    rawContent.includes(preferred.quote) ||
+    rawContent.includes(alternate.quote)
+  ) {
     const numPreferredQuotes = (rawContent.match(preferred.regex) || []).length;
     const numAlternateQuotes = (rawContent.match(alternate.regex) || []).length;
 
-    result = numPreferredQuotes > numAlternateQuotes ? alternate.quote
-                                                     : preferred.quote;
+    result =
+      numPreferredQuotes > numAlternateQuotes
+        ? alternate.quote
+        : preferred.quote;
   }
 
   return result;
@@ -534,15 +582,15 @@ function printString(raw, options, isDirectiveLiteral) {
   // Check for the alternate quote, to determine if we're allowed to swap
   // the quotes on a DirectiveLiteral.
   const canChangeDirectiveQuotes =
-      !rawContent.includes('"') && !rawContent.includes("'");
+    !rawContent.includes('"') && !rawContent.includes("'");
 
   /** @type {Quote} */
   const enclosingQuote =
-      options.parser === "json"
-          ? '"'
-          : options.__isInHtmlAttribute
-                ? "'"
-                : getPreferredQuote(raw, options.singleQuote ? "'" : '"');
+    options.parser === "json"
+      ? '"'
+      : options.__isInHtmlAttribute
+      ? "'"
+      : getPreferredQuote(raw, options.singleQuote ? "'" : '"');
 
   // Directives are exact code unit sequences, which means that you can't
   // change the escape sequences they use.
@@ -559,9 +607,16 @@ function printString(raw, options, isDirectiveLiteral) {
   // is enclosed with `enclosingQuote`, but it isn't. The string could contain
   // unnecessary escapes (such as in `"\'"`). Always using `makeString` makes
   // sure that we consistently output the minimum amount of escaped quotes.
-  return makeString(rawContent, enclosingQuote,
-                    !(options.parser === "css" || options.parser === "less" ||
-                      options.parser === "scss" || options.embeddedInHtml));
+  return makeString(
+    rawContent,
+    enclosingQuote,
+    !(
+      options.parser === "css" ||
+      options.parser === "less" ||
+      options.parser === "scss" ||
+      options.embeddedInHtml
+    )
+  );
 }
 
 /**
@@ -601,27 +656,29 @@ function makeString(rawContent, enclosingQuote, unescapeUnnecessaryEscapes) {
     // Adapted from
     // https://github.com/eslint/eslint/blob/de0b4ad7bd820ade41b1f606008bea68683dc11a/lib/rules/no-useless-escape.js#L27
     return unescapeUnnecessaryEscapes &&
-                   /^[^\n\r"'0-7\\bfnrt-vx\u2028\u2029]$/.test(escaped)
-               ? escaped
-               : "\\" + escaped;
+      /^[^\n\r"'0-7\\bfnrt-vx\u2028\u2029]$/.test(escaped)
+      ? escaped
+      : "\\" + escaped;
   });
 
   return enclosingQuote + newContent + enclosingQuote;
 }
 
 function printNumber(rawNumber) {
-  return (rawNumber
-              .toLowerCase()
-              // Remove unnecessary plus and zeroes from scientific notation.
-              .replace(/^([+-]?[\d.]+e)(?:\+|(-))?0*(\d)/, "$1$2$3")
-              // Remove unnecessary scientific notation (1e0).
-              .replace(/^([+-]?[\d.]+)e[+-]?0+$/, "$1")
-              // Make sure numbers always start with a digit.
-              .replace(/^([+-])?\./, "$10.")
-              // Remove extraneous trailing decimal zeroes.
-              .replace(/(\.\d+?)0+(?=e|$)/, "$1")
-              // Remove trailing dot.
-              .replace(/\.(?=e|$)/, ""));
+  return (
+    rawNumber
+      .toLowerCase()
+      // Remove unnecessary plus and zeroes from scientific notation.
+      .replace(/^([+-]?[\d.]+e)(?:\+|(-))?0*(\d)/, "$1$2$3")
+      // Remove unnecessary scientific notation (1e0).
+      .replace(/^([+-]?[\d.]+)e[+-]?0+$/, "$1")
+      // Make sure numbers always start with a digit.
+      .replace(/^([+-])?\./, "$10.")
+      // Remove extraneous trailing decimal zeroes.
+      .replace(/(\.\d+?)0+(?=e|$)/, "$1")
+      // Remove trailing dot.
+      .replace(/\.(?=e|$)/, "")
+  );
 }
 
 /**
@@ -630,21 +687,24 @@ function printNumber(rawNumber) {
  * @returns {number}
  */
 function getMaxContinuousCount(str, target) {
-  const results =
-      str.match(new RegExp(`(${escapeStringRegexp(target)})+`, "g"));
+  const results = str.match(
+    new RegExp(`(${escapeStringRegexp(target)})+`, "g")
+  );
 
   if (results === null) {
     return 0;
   }
 
-  return results.reduce((maxCount, result) =>
-                            Math.max(maxCount, result.length / target.length),
-                        0);
+  return results.reduce(
+    (maxCount, result) => Math.max(maxCount, result.length / target.length),
+    0
+  );
 }
 
 function getMinNotPresentContinuousCount(str, target) {
-  const matches =
-      str.match(new RegExp(`(${escapeStringRegexp(target)})+`, "g"));
+  const matches = str.match(
+    new RegExp(`(${escapeStringRegexp(target)})+`, "g")
+  );
 
   if (matches === null) {
     return 0;
@@ -694,11 +754,15 @@ function hasIgnoreComment(path) {
 }
 
 function hasNodeIgnoreComment(node) {
-  return (node &&
-          ((node.comments && node.comments.length > 0 &&
-            node.comments.some((comment) => isNodeIgnoreComment(comment) &&
-                                            !comment.unignore)) ||
-           node.prettierIgnore));
+  return (
+    node &&
+    ((node.comments &&
+      node.comments.length > 0 &&
+      node.comments.some(
+        comment => isNodeIgnoreComment(comment) && !comment.unignore
+      )) ||
+      node.prettierIgnore)
+  );
 }
 
 function isNodeIgnoreComment(comment) {
@@ -805,5 +869,5 @@ module.exports = {
   addLeadingComment,
   addDanglingComment,
   addTrailingComment,
-  isWithinParentArrayProperty,
+  isWithinParentArrayProperty
 };
